@@ -45,4 +45,28 @@ public class ListTester {
         uniqueSequense.removeAll(repeatSequense);
         return uniqueSequense;
     }
+    /**
+     *Метод calcOccurance, який приймає на вхід рядковий список як параметр.
+     * Список заповнений довільними словами 10-20 штук, які можуть повторюватись у необмеженій кількості.
+     * Обчислити скільки разів трапляється кожне слово. Результат вивести у консоль.
+     * **/
+    public static void calcOccurance(List<String> words){
+        ArrayList<String> uniqueWords =new ArrayList<>();
+        ArrayList<Integer> counter =new ArrayList<>();
+        for (String word : words) {
+            if(uniqueWords.contains(word)==false){
+                uniqueWords.add(word);
+                counter.add(1);
+            }else{
+                int indexOfRepeatWord = uniqueWords.indexOf(word);
+                counter.set(indexOfRepeatWord,counter.get(indexOfRepeatWord)+1);
+            }
+        }
+        Iterator<String> iterWords = uniqueWords.iterator();
+        Iterator<Integer> iterCounts = counter.iterator();
+        while(iterWords.hasNext() && iterCounts.hasNext()){
+            System.out.printf("%s : %d \n", iterWords.next(),iterCounts.next());
+        }
+    }
+
 }
