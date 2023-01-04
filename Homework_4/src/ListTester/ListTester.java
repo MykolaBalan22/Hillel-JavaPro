@@ -27,4 +27,22 @@ public class ListTester {
         }
         return outputArray ;
     }
+    /**
+     * Метод findUnique, що приймає на вхід числовий список, що складається з довільних значень,
+     * які можуть повторюватися в необмеженій кількості.
+     * Необхідно повернути новий числовий список, що містить тільки унікальні числа.
+     * **/
+    public static List<Number> findUnique(List<Number> inputSequense){
+        List<Number> uniqueSequense =new LinkedList<>();
+        Collection<Number> repeatSequense =new ArrayList<>();
+        for (Number number : inputSequense) {
+            if(uniqueSequense.contains(number)==false){
+                uniqueSequense.add(number);
+            }else{
+                repeatSequense.add(number);
+            }
+        }
+        uniqueSequense.removeAll(repeatSequense);
+        return uniqueSequense;
+    }
 }
