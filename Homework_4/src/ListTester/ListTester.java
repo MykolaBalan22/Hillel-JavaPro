@@ -68,5 +68,23 @@ public class ListTester {
             System.out.printf("%s : %d \n", iterWords.next(),iterCounts.next());
         }
     }
-
+    /**
+     *  Метод findOccurance, що приймає на вхід рядковий список як параметр.
+     *  Список заповнений довільними словами 10-20 штук, які можуть повторюватись у необмеженій кількості.
+     *  Обчислити скільки разів трапляється кожне слово.
+     *  Результат повернути у вигляді списку структур, що описують повторення кожного окремого взятого слова.
+     * **/
+    public static List<WordOccurance> findOccurance(List<String> words){
+        ArrayList<WordOccurance> uniqueWords =new ArrayList<>();
+        for (String word : words) {
+            WordOccurance testWord =new WordOccurance(word);
+            int localIndex =uniqueWords.indexOf(testWord);
+            if (localIndex==-1) {
+                uniqueWords.add(testWord);
+            }else{
+                uniqueWords.get(localIndex).setOccurance();
+            }
+        }
+        return uniqueWords;
+    }
 }
