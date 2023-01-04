@@ -36,4 +36,21 @@ public class PhoneDirectory<T> {
         }
         return null;
     }
+    /**
+     * Метод здійснює пошук записів на ім'я.
+     * Якщо записи знайдені, тоді їх необхідно повернути, інакше повертається null.**/
+    public List<T> findAll(String name){
+        List<T> outputArray =new ArrayList<>();
+        for (int i =0 ; i<size();i++) {
+            T iterationObject = (T) insideStorage[i];
+            if (iterationObject.equals(name)) {
+                outputArray.add(iterationObject);
+            }
+        }
+        if(outputArray.size()!=0){
+            return outputArray;
+        }else{
+            return null;
+        }
+    }
 }
