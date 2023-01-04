@@ -24,4 +24,16 @@ public class PhoneDirectory<T> {
     public int size(){
         return counterNewObjects;
     }
+    /**
+     * Метод здійснює пошук конкретного запису на ім'я. Якщо запис знайдений (перший знайдений),
+     * тоді його необхідно повернути, інакше повертається null**/
+    public T find(String name){
+        for (int i =0 ; i<size();i++) {
+            T iterationObject = (T) insideStorage[i];
+            if (iterationObject.equals(name)) {
+                return iterationObject;
+            }
+        }
+        return null;
+    }
 }
