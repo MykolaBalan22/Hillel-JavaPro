@@ -16,6 +16,14 @@ public class FileNavigator {
         }
         filesInDirectory.get(file.getPath()).add(file);
     }
+    public HashSet<FileData> find(String path){
+        if (filesInDirectory.containsKey(path)) {
+            return filesInDirectory.get(path);
+        }else{
+            System.out.println(path+"  -  This is path does not exist");
+            return null;
+        }
+    }
     @Override
     public String toString() {
         return "FileNavigator{" +
