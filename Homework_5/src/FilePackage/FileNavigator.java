@@ -2,17 +2,22 @@ package FilePackage;
 
 import java.util.*;
 
-
 public class FileNavigator {
     private HashMap<String,HashSet<FileData>> pathWithFiles;
     public FileNavigator() {
         this.pathWithFiles = new HashMap<>();
     }
     public void add (FileData file){
-        if (pathWithFiles.containsKey(file.getPath())==false) {
-            pathWithFiles.put(file.getPath(),new HashSet<>());
+        if (pathWithFiles.get(file.getPath())!=null) {
+            pathWithFiles.get(file.getPath()).add(file);
+        }else{
+            System.out.println("This is path does not exist");
         }
-        pathWithFiles.get(file.getPath()).add(file);
+    }
+    public void addPath(String path){
+        if (pathWithFiles.containsKey(path)==false) {
+            pathWithFiles.put(path,new HashSet<>());
+        }
     }
     public HashSet<FileData> find(String path){
         if (pathWithFiles.containsKey(path)) {
