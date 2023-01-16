@@ -1,27 +1,24 @@
 package FilePackage;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
+import java.util.*;
 
 
 public class FileNavigator {
-    private HashMap<String,HashSet<FileData>> filesInDirectory ;
+    private HashMap<String,HashSet<FileData>> pathWithFiles;
     private HashSet<String>  d =new HashSet<>();
 
     public FileNavigator() {
-        this.filesInDirectory = new HashMap<>();
+        this.pathWithFiles = new HashMap<>();
     }
     public void add (FileData file){
-        if (filesInDirectory.containsKey(file.getPath())==false) {
-            filesInDirectory.put(file.getPath(),new HashSet<>());
+        if (pathWithFiles.containsKey(file.getPath())==false) {
+            pathWithFiles.put(file.getPath(),new HashSet<>());
         }
-        filesInDirectory.get(file.getPath()).add(file);
+        pathWithFiles.get(file.getPath()).add(file);
     }
     public HashSet<FileData> find(String path){
-        if (filesInDirectory.containsKey(path)) {
-            return filesInDirectory.get(path);
+        if (pathWithFiles.containsKey(path)) {
+            return pathWithFiles.get(path);
         }else{
             System.out.println(path+"  -  This is path does not exist");
             return null;
@@ -29,7 +26,7 @@ public class FileNavigator {
     }
     public HashSet<FileData> filterBySize (long size){
          HashSet<FileData> filesBySize = new HashSet<>();
-        for( Map.Entry<String,HashSet<FileData>> node :filesInDirectory.entrySet()){
+        for( Map.Entry<String,HashSet<FileData>> node : pathWithFiles.entrySet()){
             for (FileData data : node.getValue()) {
                 if ( data.getSizeOfFile()<size) {
                    filesBySize.add(data);
@@ -38,10 +35,14 @@ public class FileNavigator {
         }
         return filesBySize;
     }
+    public void remove(String path){
+        pathWithFiles.remove(path);
+    }
+   
     @Override
     public String toString() {
         return "FileNavigator{" +
-                "filesInDirectory=" + filesInDirectory +
+                "filesInDirectory=" + pathWithFiles +
                 '}';
     }
 }
