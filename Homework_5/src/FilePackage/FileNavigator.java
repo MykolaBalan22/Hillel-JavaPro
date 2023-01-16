@@ -5,8 +5,6 @@ import java.util.*;
 
 public class FileNavigator {
     private HashMap<String,HashSet<FileData>> pathWithFiles;
-    private HashSet<String>  d =new HashSet<>();
-
     public FileNavigator() {
         this.pathWithFiles = new HashMap<>();
     }
@@ -37,6 +35,15 @@ public class FileNavigator {
     }
     public void remove(String path){
         pathWithFiles.remove(path);
+    }
+    public TreeSet<FileData> sortBySize(){
+        TreeSet<FileData> sortedFiles =new TreeSet<>((o1, o2) -> (int)(o1.getSizeOfFile()-o2.getSizeOfFile()));
+        for (Map.Entry<String, HashSet<FileData>> node : pathWithFiles.entrySet()) {
+            for (FileData data : node.getValue()) {
+                sortedFiles.add(data);
+            }
+        }
+        return sortedFiles;
     }
    
     @Override
