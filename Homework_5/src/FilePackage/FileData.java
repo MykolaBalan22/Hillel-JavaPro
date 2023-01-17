@@ -45,12 +45,12 @@ public class FileData {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         FileData fileData = (FileData) o;
-        return sizeOfFile == fileData.sizeOfFile && Objects.equals(fileName, fileData.fileName) && Objects.equals(path, fileData.path);
+        return  Objects.equals(fileName, fileData.fileName) && Objects.equals(path, fileData.path);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(fileName, sizeOfFile, path);
+        return Objects.hash(fileName, path);
     }
 
     @Override
