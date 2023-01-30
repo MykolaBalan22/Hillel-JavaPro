@@ -21,4 +21,18 @@ public class ProductStorage {
                 .filter(product -> product.getPrice()>250)
                 .collect(Collectors.toList());
     }
+    public List<Product> getDiscountBooks(){
+        return storage.stream()
+                .filter(product -> product.getProductType().equals(TypesOfProducts.BOOK))
+                .filter(Product::isDiscount)
+                .peek(book->book.setPrice(book.getPrice()*0.9))
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public String toString() {
+        return "ProductStorage{" +
+                "storage=" + storage +
+                '}';
+    }
 }

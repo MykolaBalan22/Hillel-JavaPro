@@ -3,10 +3,12 @@ package ProductFinder;
 public class Product {
     private TypesOfProducts productType;
     private double price ;
+    private boolean discount;
 
-    public Product(TypesOfProducts productType, double price) {
+    public Product(TypesOfProducts productType, double price, boolean discount) {
         this.productType = productType;
         this.price = price;
+        this.discount = discount;
     }
 
     public TypesOfProducts getProductType() {
@@ -25,11 +27,20 @@ public class Product {
         this.price = price;
     }
 
+    public boolean isDiscount() {
+        return discount;
+    }
+
+    public void setDiscount(boolean discount) {
+        this.discount = discount;
+    }
+
     @Override
     public String toString() {
         return "Product{" +
                 "productType=" + productType +
                 ", price=" + price +
+                ", discount=" + discount +
                 '}';
     }
 }
