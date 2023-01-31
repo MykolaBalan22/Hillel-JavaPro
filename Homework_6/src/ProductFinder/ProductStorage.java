@@ -28,6 +28,13 @@ public class ProductStorage {
                 .peek(book->book.setPrice(book.getPrice()*0.9))
                 .collect(Collectors.toList());
     }
+    public Product getMostCheapestBook (){
+        return storage.stream()
+                .filter(product -> product.getProductType().equals(TypesOfProducts.BOOK))
+                .sorted((book1,book2)->(int)Math.ceil(book1.getPrice()-book2.getPrice()))
+                .findFirst()
+                .orElseThrow(()->  new RuntimeException("Product [ Category : "+TypesOfProducts.BOOK.name()+" ] not found "));
+    }
 
     @Override
     public String toString() {
