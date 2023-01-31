@@ -1,5 +1,6 @@
 package ProductFinder;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -49,6 +50,15 @@ public class ProductStorage {
                 })
                 .skip(storage.stream().count() - 3)
                 .collect(Collectors.toList());
+    }
+    public double getTotalPriceOfCategory (TypesOfProducts category ,double priceLimit){
+        return storage.stream()
+                .filter(product -> product.getProductType().equals(category))
+                .filter(product -> product.getAddDate().getYear()== LocalDate.now().getYear())
+                .filter(product -> product.getPrice()<priceLimit)
+                .map(Product::getPrice)
+                .reduce(Double::sum)
+                .get();
     }
 
     @Override
