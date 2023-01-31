@@ -1,10 +1,9 @@
 package ProductFinder;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class ProductStorage {
     final private List<Product> storage ;
@@ -59,6 +58,15 @@ public class ProductStorage {
                 .map(Product::getPrice)
                 .reduce(Double::sum)
                 .get();
+    }
+    public Map<String, HashSet<Product>> groupProductsByType(){
+        HashMap<String, HashSet<Product>> groupedStorage =new HashMap<>();
+        Stream.of(TypesOfProducts.values())
+                .map(Enum::toString)
+                .forEach(type-> groupedStorage.put(type, new HashSet<>()));
+        storage.stream()
+                .forEach(product -> groupedStorage.get(product.getProductType().name()).add(product));
+        return groupedStorage;
     }
 
     @Override

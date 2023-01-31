@@ -1,18 +1,23 @@
 package ProductFinder;
 
 import java.time.LocalDate;
+import java.util.Objects;
 
 public class Product {
+    private static int countAllProducts=0;
+    final private  int id;
     private TypesOfProducts productType;
     private double price ;
     private boolean discount;
     private LocalDate addDate ;
 
     public Product(TypesOfProducts productType, double price, boolean discount, LocalDate addDate) {
+        this.id = countAllProducts;
         this.productType = productType;
         this.price = price;
         this.discount = discount;
         this.addDate = addDate;
+        countAllProducts++;
     }
 
     public TypesOfProducts getProductType() {
@@ -50,10 +55,24 @@ public class Product {
     @Override
     public String toString() {
         return "Product{" +
-                "productType=" + productType +
+                "id=" + id +
+                ", productType=" + productType +
                 ", price=" + price +
                 ", discount=" + discount +
                 ", addDate=" + addDate +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Product product = (Product) o;
+        return id == product.id && Double.compare(product.price, price) == 0 && discount == product.discount && productType == product.productType && Objects.equals(addDate, product.addDate);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, productType, price, discount, addDate);
     }
 }
