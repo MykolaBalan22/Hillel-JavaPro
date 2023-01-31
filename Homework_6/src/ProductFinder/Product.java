@@ -1,14 +1,18 @@
 package ProductFinder;
 
+import java.time.LocalDate;
+
 public class Product {
     private TypesOfProducts productType;
     private double price ;
     private boolean discount;
+    private LocalDate addDate ;
 
-    public Product(TypesOfProducts productType, double price, boolean discount) {
+    public Product(TypesOfProducts productType, double price, boolean discount, LocalDate addDate) {
         this.productType = productType;
         this.price = price;
         this.discount = discount;
+        this.addDate = addDate;
     }
 
     public TypesOfProducts getProductType() {
@@ -35,12 +39,21 @@ public class Product {
         this.discount = discount;
     }
 
+    public LocalDate getAddDate() {
+        return addDate;
+    }
+
+    public void setAddDate(LocalDate addDate) {
+        this.addDate = addDate;
+    }
+
     @Override
     public String toString() {
         return "Product{" +
                 "productType=" + productType +
                 ", price=" + price +
                 ", discount=" + discount +
+                ", addDate=" + addDate +
                 '}';
     }
 }

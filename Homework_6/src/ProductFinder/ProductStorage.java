@@ -35,6 +35,21 @@ public class ProductStorage {
                 .findFirst()
                 .orElseThrow(()->  new RuntimeException("Product [ Category : "+TypesOfProducts.BOOK.name()+" ] not found "));
     }
+    public List<Product> getLastTreeProducts() {
+        return storage.stream()
+                .sorted((first, second) -> {
+                    int cmp = (first.getAddDate().getYear() - second.getAddDate().getYear());
+                    if (cmp == 0) {
+                        cmp = (first.getAddDate().getMonthValue() - second.getAddDate().getMonthValue());
+                        if (cmp == 0) {
+                            cmp = (first.getAddDate().getDayOfMonth() - second.getAddDate().getDayOfMonth());
+                        }
+                    }
+                    return cmp;
+                })
+                .skip(storage.stream().count() - 3)
+                .collect(Collectors.toList());
+    }
 
     @Override
     public String toString() {
