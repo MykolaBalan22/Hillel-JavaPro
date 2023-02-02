@@ -1,5 +1,6 @@
 package ProductFinder;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.Objects;
 
@@ -7,11 +8,11 @@ public class Product {
     private static int countAllProducts=0;
     final private  int id;
     private ProductType productType;
-    private double price ;
+    private BigDecimal price ;
     private boolean discount;
     private LocalDate addDate ;
 
-    public Product(ProductType productType, double price, boolean discount, LocalDate addDate) {
+    public Product(ProductType productType, BigDecimal price, boolean discount, LocalDate addDate) {
         this.id = countAllProducts;
         this.productType = productType;
         this.price = price;
@@ -28,11 +29,11 @@ public class Product {
         this.productType = productType;
     }
 
-    public double getPrice() {
+    public BigDecimal getPrice() {
         return price;
     }
 
-    public void setPrice(double price) {
+    public void setPrice(BigDecimal price) {
         this.price = price;
     }
 
@@ -68,7 +69,7 @@ public class Product {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Product product = (Product) o;
-        return id == product.id && Double.compare(product.price, price) == 0 && discount == product.discount && productType == product.productType && Objects.equals(addDate, product.addDate);
+        return id == product.id && discount == product.discount && productType == product.productType && Objects.equals(price, product.price) && Objects.equals(addDate, product.addDate);
     }
 
     @Override

@@ -1,5 +1,6 @@
 package ProductFinder;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -21,20 +22,20 @@ public class ProductStorage {
     public List<Product> getAllProductsByCategory(ProductType category){
         return storage.stream()
                 .filter(product -> product.getProductType().equals(category))
-                .filter(product -> product.getPrice()>250)
+                .filter(product -> product.getPrice().doubleValue()>250)
                 .collect(Collectors.toList());
     }
     public List<Product> getDiscountBooks(){
         return storage.stream()
                 .filter(product -> product.getProductType().equals(ProductType.BOOK))
                 .filter(Product::isDiscount)
-                .peek(book->book.setPrice(book.getPrice()*0.9))
+                .peek(book->book.setPrice(BigDecimal.valueOf(book.getPrice().doubleValue()*0.9)))
                 .collect(Collectors.toList());
     }
     public Product getCheapestBook (){
         return storage.stream()
                 .filter(product -> product.getProductType().equals(ProductType.BOOK))
-                .sorted((book1,book2)->(int)Math.ceil(book1.getPrice()-book2.getPrice()))
+                .sorted(Comparator.comparing(Product::getPrice))
                 .findFirst()
                 .orElseThrow(()->  new RuntimeException("Product [ Category : "+ ProductType.BOOK.name()+" ] not found "));
     }
@@ -57,8 +58,9 @@ public class ProductStorage {
         return storage.stream()
                 .filter(product -> product.getProductType().equals(category))
                 .filter(product -> product.getAddDate().getYear()== LocalDate.now().getYear())
-                .filter(product -> product.getPrice()<priceLimit)
+                .filter(product -> product.getPrice().doubleValue()<priceLimit)
                 .map(Product::getPrice)
+                .map(BigDecimal::doubleValue)
                 .reduce(Double::sum)
                 .get();
     }
