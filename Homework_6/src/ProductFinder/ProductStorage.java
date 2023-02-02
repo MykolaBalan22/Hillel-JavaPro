@@ -41,16 +41,7 @@ public class ProductStorage {
     }
     public List<Product> getLastTreeProducts() {
         return storage.stream()
-                .sorted((first, second) -> {
-                    int cmp = (first.getAddDate().getYear() - second.getAddDate().getYear());
-                    if (cmp == 0) {
-                        cmp = (first.getAddDate().getMonthValue() - second.getAddDate().getMonthValue());
-                        if (cmp == 0) {
-                            cmp = (first.getAddDate().getDayOfMonth() - second.getAddDate().getDayOfMonth());
-                        }
-                    }
-                    return cmp;
-                })
+                .sorted(Comparator.comparing(Product::getAddDate))
                 .skip(storage.stream().count() - 3)
                 .collect(Collectors.toList());
     }
