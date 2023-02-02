@@ -15,7 +15,7 @@ public class ProductStorage {
         Optional.ofNullable(value)
                 .ifPresentOrElse(storage::add,()-> System.err.println("Your product does not exist!"));
     }
-    public List<Product> getAllProductsByCategory(TypesOfProducts category){
+    public List<Product> getAllProductsByCategory(ProductType category){
         return storage.stream()
                 .filter(product -> product.getProductType().equals(category))
                 .filter(product -> product.getPrice()>250)
@@ -23,17 +23,17 @@ public class ProductStorage {
     }
     public List<Product> getDiscountBooks(){
         return storage.stream()
-                .filter(product -> product.getProductType().equals(TypesOfProducts.BOOK))
+                .filter(product -> product.getProductType().equals(ProductType.BOOK))
                 .filter(Product::isDiscount)
                 .peek(book->book.setPrice(book.getPrice()*0.9))
                 .collect(Collectors.toList());
     }
-    public Product getMostCheapestBook (){
+    public Product getCheapestBook (){
         return storage.stream()
-                .filter(product -> product.getProductType().equals(TypesOfProducts.BOOK))
+                .filter(product -> product.getProductType().equals(ProductType.BOOK))
                 .sorted((book1,book2)->(int)Math.ceil(book1.getPrice()-book2.getPrice()))
                 .findFirst()
-                .orElseThrow(()->  new RuntimeException("Product [ Category : "+TypesOfProducts.BOOK.name()+" ] not found "));
+                .orElseThrow(()->  new RuntimeException("Product [ Category : "+ ProductType.BOOK.name()+" ] not found "));
     }
     public List<Product> getLastTreeProducts() {
         return storage.stream()
@@ -50,7 +50,7 @@ public class ProductStorage {
                 .skip(storage.stream().count() - 3)
                 .collect(Collectors.toList());
     }
-    public double getTotalPriceOfCategory (TypesOfProducts category ,double priceLimit){
+    public double getTotalPriceOfCategory (ProductType category , double priceLimit){
         return storage.stream()
                 .filter(product -> product.getProductType().equals(category))
                 .filter(product -> product.getAddDate().getYear()== LocalDate.now().getYear())
@@ -61,7 +61,7 @@ public class ProductStorage {
     }
     public Map<String, HashSet<Product>> groupProductsByType(){
         HashMap<String, HashSet<Product>> groupedStorage =new HashMap<>();
-        Stream.of(TypesOfProducts.values())
+        Stream.of(ProductType.values())
                 .map(Enum::toString)
                 .forEach(type-> groupedStorage.put(type, new HashSet<>()));
         storage.stream()

@@ -6,12 +6,12 @@ import java.util.Objects;
 public class Product {
     private static int countAllProducts=0;
     final private  int id;
-    private TypesOfProducts productType;
+    private ProductType productType;
     private double price ;
     private boolean discount;
     private LocalDate addDate ;
 
-    public Product(TypesOfProducts productType, double price, boolean discount, LocalDate addDate) {
+    public Product(ProductType productType, double price, boolean discount, LocalDate addDate) {
         this.id = countAllProducts;
         this.productType = productType;
         this.price = price;
@@ -20,11 +20,11 @@ public class Product {
         countAllProducts++;
     }
 
-    public TypesOfProducts getProductType() {
+    public ProductType getProductType() {
         return productType;
     }
 
-    public void setProductType(TypesOfProducts productType) {
+    public void setProductType(ProductType productType) {
         this.productType = productType;
     }
 

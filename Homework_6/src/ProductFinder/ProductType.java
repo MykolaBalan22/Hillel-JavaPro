@@ -1,5 +1,5 @@
 package ProductFinder;
 
-public enum TypesOfProducts {
+public enum ProductType {
     BOOK,TOY,FOOD,DRINK,GAME,CAR
 }
