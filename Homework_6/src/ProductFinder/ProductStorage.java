@@ -12,8 +12,11 @@ public class ProductStorage {
         this.storage = new ArrayList<>();
     }
     public void addProduct(Product value){
-        Optional.ofNullable(value)
-                .ifPresentOrElse(storage::add,()-> System.err.println("Your product does not exist!"));
+        if(value!=null){
+            storage.add(value);
+        }else{
+            throw new RuntimeException("Your product does not exist!");
+        }
     }
     public List<Product> getAllProductsByCategory(ProductType category){
         return storage.stream()
