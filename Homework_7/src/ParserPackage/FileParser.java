@@ -1,10 +1,6 @@
 package ParserPackage;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
-import java.math.BigInteger;
+import java.io.*;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -69,5 +65,44 @@ public class FileParser {
                 .distinct()
                 .count();
     }
+    public void writeStatisticsToFile (){
+        try(PrintWriter statisticWriter =new PrintWriter(new FileWriter(fileForReading.getName().replaceAll("\\.[a-z]+","")+"_statictic.txt"))) {
+            statisticWriter.print("Ten most popular words over two characters :\n");
+            for (Map.Entry<String, Integer> popularWord : getTenMostPopularWords()) {
+                statisticWriter.printf("[%s] found {%d} times\n", popularWord.getKey(),popularWord.getValue());
+            }
+            statisticWriter.print("-------------------------------------\n");
+            statisticWriter.print("Unique words :\n");
+            statisticWriter.printf("Number of unique words [%d]\n",countUniqueWords());
+            statisticWriter.print("-------------------------------------\n");
+            statisticWriter.print("Unique words in symbols :\n");
+            clearningStrings(getStringsFromFile()).stream()
+                    .distinct()
+                    .forEach(s-> statisticWriter.printf("[%s] -> {%d} symbols\n",s,s.length()));
+            statisticWriter.print("-------------------------------------\n");
+            statisticWriter.print("All words :\n");
+            statisticWriter.printf("Number of words [%d]\n",clearningStrings(getStringsFromFile()).stream().count());
+        } catch (IOException e) {
+            throw new RuntimeException("Some problem in writing");
+        }
+    }
+    public void printStatisticsOnConsole (){
+        PrintStream statisticPrinter = new PrintStream(System.out);
+        statisticPrinter.print("Ten most popular words over two characters :\n");
+            for (Map.Entry<String, Integer> popularWord : getTenMostPopularWords()) {
+                statisticPrinter.printf("[%s] found {%d} times\n", popularWord.getKey(), popularWord.getValue());
+            }
+        statisticPrinter.print("-------------------------------------\n");
+        statisticPrinter.print("Unique words :\n");
+        statisticPrinter.printf("Number of unique words [%d]\n", countUniqueWords());
+        statisticPrinter.print("-------------------------------------\n");
+        statisticPrinter.print("Unique words in symbols :\n");
+            clearningStrings(getStringsFromFile()).stream()
+                    .distinct()
+                    .forEach(s -> statisticPrinter.printf("[%s] -> {%d} symbols\n", s, s.length()));
+        statisticPrinter.print("-------------------------------------\n");
+        statisticPrinter.print("All words :\n");
+        statisticPrinter.printf("Number of words [%d]\n", clearningStrings(getStringsFromFile()).stream().count());
 
+    }
 }
