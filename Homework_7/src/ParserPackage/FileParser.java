@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.math.BigInteger;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -22,7 +23,7 @@ public class FileParser {
     public  List<String> clearningStrings (List<String> inputStringSequence){
         Pattern regularExpression =Pattern.compile("((^\\W*)([a-zA-Z]+\\'?\\-?[a-zA-Z]*)(\\W*$))");
         return inputStringSequence.stream()
-                .map(String::toLowerCase)
+               // .map(String::toLowerCase)
                 .map(s->{
                     Matcher matcher =regularExpression.matcher(s);
                     return matcher.matches() ? matcher.group(3) :"";
@@ -49,6 +50,7 @@ public class FileParser {
     public  List<Map.Entry<String, Integer>> getTenMostPopularWords(){
         Map<String,Integer> wordsCounter =new HashMap<>();
         clearningStrings(getStringsFromFile()).stream()
+                .map(String::toLowerCase)
                 .filter(s->s.length()>2)
                 .forEach(s->{
                     if(!wordsCounter.containsKey(s)){
@@ -62,4 +64,10 @@ public class FileParser {
                .limit(10)
                .collect(Collectors.toList());
     }
+    public long countUniqueWords (){
+       return clearningStrings(getStringsFromFile()).stream()
+                .distinct()
+                .count();
+    }
+
 }
