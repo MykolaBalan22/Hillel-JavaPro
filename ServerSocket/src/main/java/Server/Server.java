@@ -17,8 +17,8 @@ public class Server {
             if (client.isConnected()) dataToClient.write("Hello!!!");
             String receivedLine = dataToServer.readLine();
             Pattern russSymbols = Pattern.compile("[ыэёЭ]+");
-            Matcher matcher = russSymbols.matcher(receivedLine);
-            if (matcher.find()) {
+            Matcher finder = russSymbols.matcher(receivedLine);
+            if (finder.find()) {
                 dataToClient.write("Що таке паляниця ?");
                 String answer = dataToServer.readLine();
                 if (answer.equals("Хліб")) {
