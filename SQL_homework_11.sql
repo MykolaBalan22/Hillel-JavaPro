@@ -1,8 +1,8 @@
 CREATE TABLE user
 (
 user_id int not null auto_increment,
-name varchar(20) not null default 'noname',
-surname varchar(30) not null default 'nosurname',
+name varchar(20) not null ,
+surname varchar(30) not null ,
 date_of_registration date not null ,
 primary key(user_id)
 );
