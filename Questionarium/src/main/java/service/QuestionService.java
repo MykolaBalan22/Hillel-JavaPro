@@ -13,7 +13,7 @@ public class QuestionService {
         this.repository = repository;
     }
 
-    public Question getRndQuestoinByTopic(String topic) {
+    public Question getRndQuestionByTopic(String topic) {
         List<Question> topics = repository.getByTopic(topic);
         int randomNum = ThreadLocalRandom.current().nextInt(0, topics.size());
         return topics.get(randomNum);

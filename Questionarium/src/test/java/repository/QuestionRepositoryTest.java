@@ -2,6 +2,7 @@ package repository;
 
 import model.Question;
 import org.junit.*;
+import repository.dao.QuestionRepository;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -10,7 +11,7 @@ import java.util.List;
 
 public class QuestionRepositoryTest {
     private static Connection connection;
-    private  QuestionRepositoryImp imp;
+    private QuestionRepository impl;
     private static String user = "root";
     private static String password = "root";
     private static String url = "jdbc:mysql://localhost:3306/nikola_base";
@@ -25,31 +26,27 @@ public class QuestionRepositoryTest {
             .build();
 
     @BeforeClass
-    public static void createConnection() {
-        try {
+    public static void createConnection() throws SQLException {
             connection = DriverManager.getConnection(url, user, password);
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
     }
 
     @Before
     public void saveTestEntity() {
-        this.imp = new QuestionRepositoryImp(connection);
-        this.imp.save(questionToSave);
+        this.impl = new QuestionRepositoryImp(connection);
+        this.impl.save(questionToSave);
     }
 
     @Test
     public void getTest() {
-        Question actual = this.imp.get(testId);
-        this.imp.delete(testId);
+        Question actual = this.impl.get(testId);
+        this.impl.delete(testId);
         Assert.assertEquals(questionToSave, actual);
     }
 
     @Test
     public void saveTest() {
-        Question actual = this.imp.get(testId);
-        this.imp.delete(testId);
+        Question actual = this.impl.get(testId);
+        this.impl.delete(testId);
         Assert.assertEquals(questionToSave, actual);
     }
 
@@ -57,24 +54,24 @@ public class QuestionRepositoryTest {
     public void updateTest() {
         String updateText = "Update question";
         Question questionToUpdate = Question.builder().id(testId).text(updateText).topic(testTopic).build();
-        this.imp.update(questionToUpdate);
-        Question actual = this.imp.get(testId);
-        this.imp.delete(testId);
+        this.impl.update(questionToUpdate);
+        Question actual = this.impl.get(testId);
+        this.impl.delete(testId);
         Assert.assertEquals(questionToUpdate, actual);
     }
 
     @Test
     public void deleteTest() {
-        this.imp.delete(testId);
-        int actual = this.imp.getByTopic(this.testTopic).size();
+        this.impl.delete(testId);
+        int actual = this.impl.getByTopic(this.testTopic).size();
         Assert.assertEquals(0, actual);
     }
 
     @Test
     public void getByTopicTest() {
-        List<Question> actual = this.imp.getByTopic(testTopic);
+        List<Question> actual = this.impl.getByTopic(testTopic);
         List<Question> expected = List.of(questionToSave);
-        this.imp.delete(testId);
+        this.impl.delete(testId);
         Assert.assertEquals(expected, actual);
     }
 }
