@@ -75,7 +75,6 @@ public class QuestionRepositoryImp implements QuestionRepository {
         try {
             PreparedStatement preparedStatement = this.connection.prepareStatement(deleteById);
             preparedStatement.setInt(1, id);
-            ResultSet question = preparedStatement.executeQuery();
             if (preparedStatement.executeUpdate() != 1) {
                 throw new SQLException("Something went wrong");
             }
