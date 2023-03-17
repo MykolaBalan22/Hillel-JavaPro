@@ -12,9 +12,6 @@ import java.util.List;
 public class QuestionRepositoryTest {
     private static Connection connection;
     private QuestionRepository impl;
-    private static String user = "root";
-    private static String password = "root";
-    private static String url = "jdbc:mysql://localhost:3306/nikola_base";
 
     private int testId = 100;
     private String testText = "test question";
@@ -27,7 +24,8 @@ public class QuestionRepositoryTest {
 
     @BeforeClass
     public static void createConnection() throws SQLException {
-            connection = DriverManager.getConnection(url, user, password);
+        connection = ConnectionSingelton.getConnection();
+        connection.close();
     }
 
     @Before
@@ -74,4 +72,5 @@ public class QuestionRepositoryTest {
         this.impl.delete(testId);
         Assert.assertEquals(expected, actual);
     }
+
 }

@@ -1,5 +1,6 @@
 package repository;
 
+import Exceptions.SqlUpdateException;
 import model.Question;
 import repository.dao.QuestionRepository;
 
@@ -14,10 +15,11 @@ public class QuestionRepositoryImp implements QuestionRepository {
     private Connection connection;
 
     public QuestionRepositoryImp(Connection connection) {
-        this.connection = connection;
+        this.connection = ConnectionSingelton.getConnection();
     }
 
     private final String findById = "SELECT * FROM Questions where id=?";
+    private final String getAllQuest = "SELECT * FROM Questions ";
     private final String saveQuestion = "INSERT INTO Questions VALUE (?,?,?)";
     private final String findByTopic = "SELECT * FROM Questions where topic=?";
     private final String updateText = "UPDATE Questions SET text=? where id=?";
@@ -62,11 +64,9 @@ public class QuestionRepositoryImp implements QuestionRepository {
             PreparedStatement preparedStatement = this.connection.prepareStatement(updateText);
             preparedStatement.setString(1, question.getText());
             preparedStatement.setInt(2, question.getId());
-            if (preparedStatement.executeUpdate() != 1) {
-                throw new SQLException("Something went wrong");
-            }
+            preparedStatement.executeUpdate();
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            throw new SqlUpdateException(e.getMessage());
         }
     }
 
@@ -101,5 +101,20 @@ public class QuestionRepositoryImp implements QuestionRepository {
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    @Override
+    public List<Question> getAllQuestions() throws SQLException {
+        List<Question> allQuestions = new ArrayList<>();
+        PreparedStatement preparedStatement = this.connection.prepareStatement(getAllQuest);
+        ResultSet question = preparedStatement.executeQuery();
+        while (question.next()) {
+            allQuestions.add(Question.builder()
+                    .id(question.getInt("id"))
+                    .text(question.getString("text"))
+                    .topic(question.getString("topic"))
+                    .build());
+        }
+        return allQuestions;
     }
 }
